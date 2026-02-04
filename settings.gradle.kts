@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "TheSportsApp"
 include(":app")
 include(":core-network")
+include(":core-data")
