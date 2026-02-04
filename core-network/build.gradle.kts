@@ -14,6 +14,12 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        buildConfigField(
+            type = "String",
+            name = "API_KEY",
+            value = "123"
+        )
     }
 
     buildTypes {
@@ -34,6 +40,10 @@ android {
         compilerOptions {
             jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
         }
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
 }
