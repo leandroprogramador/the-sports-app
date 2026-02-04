@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "br.leandro.core.data"
+    namespace = "br.leandro.core.domain"
     compileSdk {
         version = release(36)
     }
@@ -38,15 +38,9 @@ android {
 }
 
 dependencies {
-    // Network
-    implementation(project(":core-network"))
-
-    // Domain
-    implementation(project(":core-domain"))
+    // Koin
+    implementation(libs.koin.core)
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.core)
-
-    // Koin (core)
-    implementation(libs.koin.core)
 }

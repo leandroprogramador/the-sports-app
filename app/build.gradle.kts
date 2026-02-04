@@ -74,6 +74,8 @@ dependencies {
 
     // Modules
     implementation(project(":core-network"))
+    implementation(project(":core-data"))
+    implementation(project(":core-domain"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

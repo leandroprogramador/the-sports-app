@@ -1,0 +1,22 @@
+package br.leandro.core.data.repository
+
+import br.leandro.core.data.datasource.SportsRemoteDataSource
+import br.leandro.core.data.mapper.toDomain
+import br.leandro.core.domain.model.Sport
+import br.leandro.core.domain.repository.SportRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.withContext
+
+class SportRepositoryImpl(private val sportRemoteDataSource: SportsRemoteDataSource) : SportRepository {
+
+    override suspend fun getSports(): Flow<List<Sport>> =
+        flow {
+            val response = sportRemoteDataSource
+                .getSports()
+            emit(response.sports.map { it.toDomain() })
+        }.flowOn(Dispatchers.IO)
+
+}

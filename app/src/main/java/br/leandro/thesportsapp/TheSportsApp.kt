@@ -2,6 +2,8 @@ package br.leandro.thesportsapp
 
 import android.app.Application
 import br.leandro.core.network.di.theSportsDbNetworkModule
+import br.leandro.core.data.di.theSportsDbDataModule
+import br.leandro.core.domain.di.theSportsDomainModule
 import org.koin.core.context.startKoin
 
 class TheSportsApp : Application() {
@@ -9,7 +11,12 @@ class TheSportsApp : Application() {
         super.onCreate()
         startKoin {
             modules(
-                theSportsDbNetworkModule
+                theSportsDbNetworkModule,
+                theSportsDbDataModule,
+                theSportsDomainModule,
+                appModule
+
+
             )
         }
     }
