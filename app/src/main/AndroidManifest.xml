@@ -11,7 +11,7 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/sports_icon"
         android:supportsRtl="true"
-        android:theme="@style/Theme.TheSportsApp">
+        android:theme="@style/Theme.TheSportsApp.Splash">
         <activity
             android:name=".MainActivity"
             android:exported="true">
