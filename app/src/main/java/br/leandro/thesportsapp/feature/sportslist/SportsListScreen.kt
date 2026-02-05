@@ -17,7 +17,7 @@ fun SportsListScreen(
             sports = uiState.sports,
             onSportClick = onSportClick
         )
-        is SportsListUiState.Error -> ErrorIndicator(message = uiState.message, modifier = Modifier)
+        is SportsListUiState.Error -> ErrorIndicator(uiState.error, modifier = Modifier)
 
     }
 

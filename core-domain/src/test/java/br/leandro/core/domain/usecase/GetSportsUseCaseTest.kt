@@ -17,8 +17,8 @@ class GetSportsUseCaseTest {
     @Test
     fun `invoke should call repository and return sports flow`() = runTest {
         val mockSports = listOf(
-            Sport("1", "Soccer", "", icon = ""),
-            Sport("2", "Basketball", "", icon = "")
+            Sport( id = "1",  name = "Soccer", description = "", icon = "", image = ""),
+            Sport( id = "1",  name = "Basketball", description = "", icon = "", image = ""),
         )
 
         coEvery { repository.getSports() } returns flowOf(mockSports)

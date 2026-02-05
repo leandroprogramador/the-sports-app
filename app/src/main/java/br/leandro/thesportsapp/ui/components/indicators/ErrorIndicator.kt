@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -19,35 +20,35 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import br.leandro.core.domain.model.AppError
 
 @Composable
-fun ErrorIndicator(message: String, modifier: Modifier = Modifier) {
+fun ErrorIndicator(
+    appError: AppError,
+    modifier: Modifier = Modifier
+) {
     Box(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp)
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
     ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Icon(
-                imageVector = Icons.Outlined.Close,
+                imageVector = Icons.Default.Close,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.error,
                 modifier = Modifier.size(48.dp)
             )
-            Spacer(modifier.height(16.dp))
+
+            Spacer(modifier = Modifier.height(16.dp))
+
             Text(
-                text = message,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface,
+                text = appError.message,
+                style = MaterialTheme.typography.bodyLarge,
                 textAlign = TextAlign.Center
             )
-
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun ErrorIndicatorPreview() {
-    ErrorIndicator(message = "Something went wrong")
-}
