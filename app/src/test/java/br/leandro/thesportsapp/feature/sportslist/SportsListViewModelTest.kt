@@ -38,8 +38,9 @@ class SportsListViewModelTest {
     @Test
     fun `getSports should emit Success state when getSportsUseCase returns sports list`() = runTest {
         val mockSports = listOf(
-            Sport("1", "Soccer", "", icon = ""),
-            Sport("2", "Basketball", "", icon = "")
+            Sport( id = "1",  name = "Soccer", description = "", icon = "", image = ""),
+            Sport( id = "2",  name = "Basketball", description = "", icon = "", image = ""),
+
 
         )
 
@@ -84,7 +85,7 @@ class SportsListViewModelTest {
 
     @Test
     fun `when onSportClicked is called, it should emit OnSportClicked event`() = runTest {
-        val sport = Sport("1", "Soccer", "", icon = "")
+        val sport = Sport( id = "1",  name = "Soccer", description = "", icon = "", image = "")
         coEvery { getSportsUseCase() } returns flowOf(listOf(sport))
         viewModelTest = SportsListViewModel(getSportsUseCase)
 

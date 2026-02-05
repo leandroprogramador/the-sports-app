@@ -16,7 +16,6 @@ class SportsListScreenTest {
 
     @Test
     fun shouldDisplayLoadingState() {
-        // Directly test the UI state - no Koin, no mocks needed
         composeTestRule.setContent {
             SportsListScreen(
                 uiState = SportsListUiState.Loading,
@@ -24,7 +23,6 @@ class SportsListScreenTest {
             )
         }
 
-        // No wait needed - loading should be immediate
         composeTestRule.onNodeWithText("Carregando", substring = true)
             .assertIsDisplayed()
     }
