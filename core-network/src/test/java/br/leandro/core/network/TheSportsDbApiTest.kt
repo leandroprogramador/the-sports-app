@@ -55,7 +55,6 @@ class TheSportsDbApiTest {
         assertEquals(1, response.sports?.size)
         val sport = response.sports?.get(0)
 
-        // Testing serializable json
         assertEquals("102", sport?.idSport)
         assertEquals("TeamvsTeam", sport?.strFormat)
         assertEquals("Soccer", sport?.strSport)

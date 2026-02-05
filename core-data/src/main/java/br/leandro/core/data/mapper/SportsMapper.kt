@@ -5,8 +5,9 @@ import br.leandro.core.network.model.dto.SportsDto
 
 fun SportsDto.toDomain() : Sport =
     Sport(
+        description = this.strSportDescription,
+        icon = this.strSportIconGreen,
         id = this.idSport,
-        name = this.strSport,
         image = this.strSportThumb,
-        icon = this.strSportIconGreen
+        name = this.strSport,
     )

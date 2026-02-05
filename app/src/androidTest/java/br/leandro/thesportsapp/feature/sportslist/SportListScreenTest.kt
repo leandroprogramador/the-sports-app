@@ -3,7 +3,10 @@ package br.leandro.thesportsapp.feature.sportslist
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import br.leandro.core.domain.model.AppError
 import br.leandro.core.domain.model.Sport
+import junit.framework.TestCase.assertTrue
 import org.junit.Rule
 import org.junit.Test
 
@@ -14,7 +17,6 @@ class SportsListScreenTest {
 
     @Test
     fun shouldDisplayLoadingState() {
-        // Directly test the UI state - no Koin, no mocks needed
         composeTestRule.setContent {
             SportsListScreen(
                 uiState = SportsListUiState.Loading,
@@ -22,7 +24,6 @@ class SportsListScreenTest {
             )
         }
 
-        // No wait needed - loading should be immediate
         composeTestRule.onNodeWithText("Carregando", substring = true)
             .assertIsDisplayed()
     }
@@ -30,8 +31,8 @@ class SportsListScreenTest {
     @Test
     fun shouldDisplaySuccessState() {
         val mockList = listOf(
-            Sport(id = "1", name = "Soccer", image = "", icon = ""),
-            Sport(id = "2", name = "Basketball", image = "", icon = "")
+            Sport(id = "1", name = "Soccer", image = "", icon = "", description = ""),
+            Sport(id = "2", name = "Basketball", image = "", icon = "", description = "")
         )
 
         composeTestRule.setContent {
@@ -50,13 +51,30 @@ class SportsListScreenTest {
     fun shouldDisplayErrorState() {
         composeTestRule.setContent {
             SportsListScreen(
-                uiState = SportsListUiState.Error("Erro de conexão"),
+                uiState = SportsListUiState.Error(AppError.NoConnection),
                 onSportClick = {}
             )
         }
 
-        // No wait needed - error state is immediate
-        composeTestRule.onNodeWithText("Erro de conexão", substring = true)
+        composeTestRule.onNodeWithText(AppError.NoConnection.message, substring = true)
             .assertIsDisplayed()
+    }
+
+    @Test
+    fun shouldInvokeOnSportClick() {
+        var clicked = false
+        val mockList = listOf(
+            Sport(id = "1", name = "Soccer", image = "", icon = "", description = "")
+        )
+
+        composeTestRule.setContent {
+            SportsListScreen(
+                uiState = SportsListUiState.Success(mockList),
+                onSportClick = { clicked = true }
+            )
+        }
+
+        composeTestRule.onNodeWithText("Soccer").performClick()
+        assertTrue(clicked)
     }
 }
