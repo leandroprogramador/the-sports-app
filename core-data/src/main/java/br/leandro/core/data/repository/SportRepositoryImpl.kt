@@ -17,7 +17,7 @@ class SportRepositoryImpl(private val sportsDataSource: SportsDataSource) : Spor
         flow {
             val response = sportsDataSource
                 .getSports()
-            emit(response.sports.map { it.toDomain() })
+            emit(response.sports?.map { it.toDomain() } ?: emptyList())
         }.flowOn(Dispatchers.IO)
 
 }

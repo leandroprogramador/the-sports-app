@@ -11,5 +11,5 @@ data class SportsDto(
 )
 
 data class SportsResponseDto(
-    val sports : List<SportsDto>
+    val sports : List<SportsDto>?
 )

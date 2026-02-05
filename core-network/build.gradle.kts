@@ -56,4 +56,10 @@ dependencies {
 
     // Koin Core (sem Android)
     implementation(libs.koin.core)
+
+    // Teste
+    testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.okhttp.mockwebserver)
+
 }
