@@ -1,11 +1,9 @@
 package br.leandro.thesportsapp.feature.sportslist
 
-import android.util.Log
 import app.cash.turbine.test
-import br.leandro.core.data.di.theSportsDbDataModule
-import br.leandro.core.domain.di.theSportsDomainModule
+import br.leandro.core.data.di.coreDataModule
+import br.leandro.core.domain.di.coreDomainModule
 import br.leandro.core.network.api.TheSportsDbApi
-import br.leandro.core.network.di.theSportsDbNetworkModule
 import br.leandro.thesportsapp.di.appModule
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -51,8 +49,8 @@ class SportsListIntegrationTest : KoinTest {
                             .create(TheSportsDbApi::class.java)
                     }
                 },
-                theSportsDbDataModule,
-                theSportsDomainModule,
+                coreDataModule,
+                coreDomainModule,
                 appModule
             )
 

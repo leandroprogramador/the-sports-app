@@ -1,7 +1,7 @@
 package br.leandro.core.data.repository
 
 import app.cash.turbine.test
-import br.leandro.core.data.datasource.SportsDataSource
+import br.leandro.core.data.remote.sports.SportsRemoteDataSource
 import br.leandro.core.domain.model.AppError
 import br.leandro.core.network.model.dto.SportsDto
 import br.leandro.core.network.model.dto.SportsResponseDto
@@ -13,7 +13,7 @@ import junit.framework.TestCase.assertEquals
 import org.junit.Test
 
 class SportRepositoryImplTest {
-    private val dataSource : SportsDataSource = mockk()
+    private val dataSource : SportsRemoteDataSource = mockk()
     private val repository = SportRepositoryImpl(dataSource)
 
     @Test
