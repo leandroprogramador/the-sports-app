@@ -7,9 +7,9 @@ import br.leandro.core.domain.repository.SportRepository
 import org.koin.dsl.module
 
 val theSportsDbDataModule = module {
-    factory<SportsDataSource> { SportsRemoteDataSource(get()) }
+    single<SportsDataSource> { SportsRemoteDataSource(get()) }
 
-    factory<SportRepository> {
+    single<SportRepository> {
         SportRepositoryImpl(get())
     }
 

@@ -5,9 +5,7 @@ plugins {
 
 android {
     namespace = "br.leandro.core.network"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 26
@@ -15,11 +13,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
 
-        buildConfigField(
-            type = "String",
-            name = "API_KEY",
-            value = "123"
-        )
+        buildConfigField("String", "API_KEY", "\"123\"")
     }
 
     buildTypes {

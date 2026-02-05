@@ -14,9 +14,10 @@ val theSportsDbNetworkModule = module {
         }
     }
 
-    single {
+    single <OkHttpClient> {
         OkHttpClient.Builder()
             .addInterceptor(get<HttpLoggingInterceptor>())
+            .build()
     }
 
     single {

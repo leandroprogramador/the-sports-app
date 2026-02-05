@@ -72,10 +72,15 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
 
+    // Coil
+    implementation(libs.coil.compose)
+
+
     // Modules
     implementation(project(":core-network"))
     implementation(project(":core-data"))
     implementation(project(":core-domain"))
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
