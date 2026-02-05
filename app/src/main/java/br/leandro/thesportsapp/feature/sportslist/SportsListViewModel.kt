@@ -2,6 +2,7 @@ package br.leandro.thesportsapp.feature.sportslist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.leandro.core.domain.model.AppError
 import br.leandro.core.domain.model.Sport
 import br.leandro.core.domain.usecase.GetSportsUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -30,8 +31,9 @@ class SportsListViewModel(private val getSportsUseCase: GetSportsUseCase) : View
         viewModelScope.launch {
             getSportsUseCase().onStart {
                 _uiState.value = SportsListUiState.Loading
-            }.catch {
-                _uiState.value = SportsListUiState.Error(it.message ?: "Ocorreu um erro ao buscar a lista de esportes")
+            }.catch {error ->
+                val appError = error as? AppError ?: AppError.Unknown
+                _uiState.value = SportsListUiState.Error(appError)
             }.collect {
                 _uiState.value = SportsListUiState.Success(it)
             }

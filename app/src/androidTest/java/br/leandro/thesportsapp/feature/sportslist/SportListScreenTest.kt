@@ -4,6 +4,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import br.leandro.core.domain.model.AppError
 import br.leandro.core.domain.model.Sport
 import junit.framework.TestCase.assertTrue
 import org.junit.Rule
@@ -50,12 +51,12 @@ class SportsListScreenTest {
     fun shouldDisplayErrorState() {
         composeTestRule.setContent {
             SportsListScreen(
-                uiState = SportsListUiState.Error("Erro de conexão"),
+                uiState = SportsListUiState.Error(AppError.NoConnection),
                 onSportClick = {}
             )
         }
 
-        composeTestRule.onNodeWithText("Erro de conexão", substring = true)
+        composeTestRule.onNodeWithText(AppError.NoConnection.message, substring = true)
             .assertIsDisplayed()
     }
 

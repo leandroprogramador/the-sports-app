@@ -1,6 +1,7 @@
 package br.leandro.thesportsapp.feature.sportslist
 
 import app.cash.turbine.test
+import br.leandro.core.domain.model.AppError
 import br.leandro.core.domain.model.Sport
 import br.leandro.core.domain.usecase.GetSportsUseCase
 import io.mockk.coEvery
@@ -72,14 +73,14 @@ class SportsListViewModelTest {
 
     @Test
     fun `getSports should emit Error state when getSportsUseCase throws an exception`() = runTest {
-        val errorMessage = "Ocorreu um erro ao tentar buscar os esportes."
-        coEvery { getSportsUseCase() } returns flow { throw Exception(errorMessage) }
+
+        coEvery { getSportsUseCase() } returns flow { throw AppError.Unknown }
         viewModelTest = SportsListViewModel(getSportsUseCase)
 
         viewModelTest.uiState.test {
             val emission = awaitItem()
             assert(emission is SportsListUiState.Error)
-            assertEquals(errorMessage, (emission as SportsListUiState.Error).message)
+            assertEquals(AppError.Unknown.message, (emission as SportsListUiState.Error).error.message)
         }
     }
 

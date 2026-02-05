@@ -11,6 +11,23 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+
+
+
     </style>
+
+    <style name="Theme.TheSportsApp.Splash" parent="Theme.SplashScreen">
+        <!-- Fundo -->
+        <item name="windowSplashScreenBackground">@color/splash_background</item>
+
+        <!-- Ícone -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/sports_icon</item>
+
+        <!-- Cor do ícone -->
+        <item name="windowSplashScreenIconBackgroundColor">@color/splash_icon_bg</item>
+
+        <!-- Tema após a splash -->
+        <item name="postSplashScreenTheme">@style/Theme.TheSportsApp</item>
+    </style>
+
 </resources>

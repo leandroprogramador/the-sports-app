@@ -2,6 +2,7 @@ package br.leandro.core.data.repository
 
 import app.cash.turbine.test
 import br.leandro.core.data.datasource.SportsDataSource
+import br.leandro.core.domain.model.AppError
 import br.leandro.core.network.model.dto.SportsDto
 import br.leandro.core.network.model.dto.SportsResponseDto
 import io.mockk.coEvery
@@ -61,11 +62,11 @@ class SportRepositoryImplTest {
 
     @Test
     fun `getSports should throw exception when data source fails`() = runTest {
-        coEvery { dataSource.getSports() } throws Exception("Ocorreu um erro ao buscar os esportes.")
+        coEvery { dataSource.getSports() } throws AppError.Unknown
 
         repository.getSports().test {
             val error = awaitError()
-            assertEquals("Ocorreu um erro ao buscar os esportes.", error.message)
+            assertEquals(AppError.Unknown.message, error.message)
         }
     }
 }
