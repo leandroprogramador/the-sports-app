@@ -4,7 +4,8 @@
     <string name="error_no_connection">Sem conexão com a internet</string>
     <string name="error_service_unavailable">Serviço temporariamente indisponível</string>
     <string name="error_unknown">Ocorreu um erro inesperado</string>
-    <string name="loading_sports_details">Carregando detalhes do esporte...</string>
+    <string name="loading_sports_details">Carregando detalhes do esporte…</string>
     <string name="details">Detalhes do Esporte</string>
     <string name="sports">Esportes</string>
+    <string name="loading">Carregando…</string>
 </resources>
