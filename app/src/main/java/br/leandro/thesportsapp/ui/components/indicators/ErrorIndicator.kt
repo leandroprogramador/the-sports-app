@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.CloudOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -34,7 +35,7 @@ fun ErrorIndicator(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(
-                imageVector = Icons.Default.Close,
+                imageVector = Icons.Default.CloudOff,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.error,
                 modifier = Modifier.size(48.dp)

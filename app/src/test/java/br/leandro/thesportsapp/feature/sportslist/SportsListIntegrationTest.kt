@@ -5,9 +5,11 @@ import app.cash.turbine.test
 import br.leandro.core.data.local.database.SportsDatabase
 import br.leandro.core.data.local.entity.SportEntity
 import br.leandro.core.domain.di.coreDomainModule
-import br.leandro.core.network.api.TheSportsDbApi
 import br.leandro.thesportsapp.di.appModule
-import br.leandro.thesportsapp.di.testDataModule
+import br.leandro.thesportsapp.di.inMemoryDataBaseModule
+import br.leandro.thesportsapp.di.testSportDataModule
+import br.leandro.thesportsapp.util.NetworkProvider.createRetrofitServer
+import br.leandro.thesportsapp.util.NetworkProvider.getJsonString
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -29,13 +31,11 @@ import org.koin.test.KoinTest
 import org.koin.test.get
 import org.koin.test.inject
 import org.robolectric.RobolectricTestRunner
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-@RunWith(RobolectricTestRunner::class)
 @OptIn(ExperimentalCoroutinesApi::class)
+@RunWith(RobolectricTestRunner::class)
 class SportsListIntegrationTest : KoinTest {
 
     private lateinit var server: MockWebServer
@@ -52,14 +52,11 @@ class SportsListIntegrationTest : KoinTest {
             modules(
                 module {
                     single {
-                        Retrofit.Builder()
-                            .baseUrl(server.url("/"))
-                            .addConverterFactory(GsonConverterFactory.create())
-                            .build()
-                            .create(TheSportsDbApi::class.java)
+                        createRetrofitServer(server)
                     }
                 },
-                testDataModule,
+                inMemoryDataBaseModule,
+                testSportDataModule,
                 coreDomainModule,
                 appModule
             )
@@ -85,12 +82,11 @@ class SportsListIntegrationTest : KoinTest {
         )
         dao.insertSports(listOf(localSport))
 
-        val json = getJsonString()
+        val json = getJsonString("sports_response.json")
         assertTrue(json.isNotEmpty(), "JSON não encontrado ou vazio")
 
         server.enqueue(MockResponse().setResponseCode(200).setBody(json))
 
-        viewModel.getSports()
 
         advanceUntilIdle()
 
@@ -100,8 +96,8 @@ class SportsListIntegrationTest : KoinTest {
 
             val success = awaitItem()
             assertTrue(success is SportsListUiState.Success)
+
             assertEquals(2, success.sports.size)
-            assertTrue(success.sports.any { it.name == "Basketball" })
             assertTrue(success.sports.any { it.name == "Soccer" })
 
             cancelAndIgnoreRemainingEvents()
@@ -112,7 +108,6 @@ class SportsListIntegrationTest : KoinTest {
             val sports = awaitItem()
             println("DEBUG: DAO retornou -> $sports")
             assertEquals(2, sports.size)
-            assertTrue(sports.any { it.name == "Basketball" })
             assertTrue(sports.any { it.name == "Soccer" })
         }
 
@@ -132,7 +127,6 @@ class SportsListIntegrationTest : KoinTest {
 
         server.enqueue(MockResponse().setResponseCode(500))
 
-        viewModel.getSports()
         advanceUntilIdle()
 
         viewModel.uiState.test {
@@ -152,7 +146,6 @@ class SportsListIntegrationTest : KoinTest {
 
         server.enqueue(MockResponse().setResponseCode(500))
 
-        viewModel.getSports()
         advanceUntilIdle()
 
         viewModel.uiState.test {
@@ -166,12 +159,7 @@ class SportsListIntegrationTest : KoinTest {
     }
 
 
-    private fun getJsonString(): String {
-        return javaClass.classLoader
-            ?.getResourceAsStream("sports_response.json")
-            ?.bufferedReader()
-            ?.use { it.readText() } ?: ""
-    }
+
 }
 
 

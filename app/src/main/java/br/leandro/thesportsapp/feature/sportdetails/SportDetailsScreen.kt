@@ -12,6 +12,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.List
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -42,13 +43,12 @@ fun SportDetailsScreen(
 
         is SportDetailsUiState.Success -> {
             Scaffold(
-                floatingActionButton = {
-                    FloatingActionButton(onClick = { onSeeLeaguesClick(uiState.sport) }) {
-                        Icon(Icons.AutoMirrored.Filled.List, contentDescription = stringResource(R.string.see_leagues))
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(text = stringResource(R.string.see_leagues))
-                    }
+                floatingActionButton = { ExtendedFloatingActionButton(
+                        onClick = { onSeeLeaguesClick(uiState.sport) },
+                        icon = { Icon(Icons.AutoMirrored.Filled.List, contentDescription = null) },
+                        text = { Text(stringResource(R.string.see_leagues)) } )
                 }
+
             ) { innerPadding ->
                 SportDetailsContent(
                     sport = uiState.sport,

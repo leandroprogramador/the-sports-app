@@ -8,11 +8,10 @@ class SportsLocalDataSourceImpl(private val dao : SportDao) : SportsLocalDataSou
     override suspend fun getSports(): Flow<List<SportEntity>> = dao.getSports()
 
     override suspend fun saveSports(sports: List<SportEntity>) {
+        dao.clear()
         dao.insertSports(sports)
     }
 
     override suspend fun hasData(): Boolean = dao.count() > 0
-    override suspend fun clear() {
-        dao.clear()
-    }
+
 }
