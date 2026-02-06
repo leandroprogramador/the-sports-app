@@ -15,15 +15,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import br.leandro.core.domain.model.Sport
 import br.leandro.thesportsapp.ui.components.indicators.LoadingIndicator
 import coil.compose.AsyncImage
+import br.leandro.thesportsapp.R
 
 @Composable
 fun SportDetailsScreen(uiState: SportDetailsUiState) {
     when(uiState) {
-        SportDetailsUiState.Loading -> LoadingIndicator(message = "Carregando detalhes do esporte...", modifier = Modifier)
+        SportDetailsUiState.Loading -> LoadingIndicator(message = stringResource(R.string.loading_sports_details), modifier = Modifier)
         is SportDetailsUiState.Success -> SportDetailsContent(sport = uiState.sport )
     }
 }

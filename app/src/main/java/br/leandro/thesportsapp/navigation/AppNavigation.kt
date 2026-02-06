@@ -1,6 +1,7 @@
 package br.leandro.thesportsapp.navigation
 
 import androidx.activity.compose.BackHandler
+
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -16,10 +17,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
 import br.leandro.thesportsapp.feature.sportdetails.SportDetailsRoute
 import br.leandro.thesportsapp.feature.sportslist.SportsListRoute
+import br.leandro.thesportsapp.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,8 +36,8 @@ fun AppNavigation() {
                 title = {
                     Text(
                         text =  when (currentRoute) {
-                            is AppRoute.SportsList -> "Esportes"
-                            is AppRoute.SportsDetails -> "Detalhes"
+                            is AppRoute.SportsList -> stringResource(R.string.sports)
+                            is AppRoute.SportsDetails -> stringResource(R.string.details)
                         },
                         style = MaterialTheme.typography.titleLarge
                     )

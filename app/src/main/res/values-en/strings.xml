@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="loading_sports">Loading sports…</string>
+    <string name="error_no_connection">No internet connection</string>
+    <string name="error_service_unavailable">Service temporarily unavailable</string>
+    <string name="error_unknown">An unexpected error occurred</string>
+    <string name="loading_sports_details">Loading sport details…</string>
+    <string name="details">Sports Details</string>
+    <string name="sports">Sports</string>
+</resources>
