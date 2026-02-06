@@ -10,4 +10,6 @@
     <string name="details">Sports Details</string>
     <string name="sports">Sports</string>
     <string name="loading">Loading…</string>
+    <string name="see_leagues">See Leagues</string>
+
 </resources>

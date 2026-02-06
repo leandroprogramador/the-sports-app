@@ -8,4 +8,6 @@
     <string name="details">Detalhes do Esporte</string>
     <string name="sports">Esportes</string>
     <string name="loading">Carregando…</string>
+    <string name="see_leagues">Ver Ligas</string>
+
 </resources>
