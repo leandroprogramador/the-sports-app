@@ -7,7 +7,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
 import retrofit2.Retrofit
 
-val theSportsDbNetworkModule = module {
+val coreNetworkModule = module {
     single {
         HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY

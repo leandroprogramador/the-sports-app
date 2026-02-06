@@ -34,21 +34,7 @@ class TheSportsDbApiTest {
 
     @Test
     fun `getSports should return sports list when response is successful`() = runTest{
-        val json = """
-            {
-              "sports": [
-                {
-                  "idSport": "102",
-                  "strFormat": "TeamvsTeam",
-                  "strSport": "Soccer",
-                  "strSportDescription": "Description",
-                  "strSportThumb": "url_thumb",
-                  "strSportThumbBW": "url_thumb_bw",
-                  "strSportIconGreen": "url_icon"
-                }
-              ]
-            }
-        """.trimIndent()
+        val json = getJsonString()
 
         server.enqueue(MockResponse().setResponseCode(200).setBody(json))
         val response = api.getSports()
@@ -73,6 +59,15 @@ class TheSportsDbApiTest {
         server.enqueue(MockResponse().setResponseCode(404))
         api.getSports()
 
+    }
+
+    private fun getJsonString(): String {
+        return try {
+            val inputStream = javaClass.classLoader?.getResourceAsStream("sports_response.json")
+            inputStream?.bufferedReader().use { it?.readText() } ?: ""
+        } catch (e: Exception) {
+            ""
+        }
     }
 
 

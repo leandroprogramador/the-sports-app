@@ -95,7 +95,8 @@ dependencies {
 
     // Koin
     implementation(libs.koin.androidx.compose)
-        // Coroutines & Flow
+
+    // Coroutines & Flow
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
@@ -119,6 +120,8 @@ dependencies {
     testImplementation(libs.okhttp.mockwebserver)
     testImplementation(libs.retrofit)
     testImplementation(libs.retrofit.converter.gson)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.room.testing)
 
 
     androidTestImplementation(libs.androidx.junit)
