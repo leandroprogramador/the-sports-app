@@ -1,5 +1,6 @@
 package br.leandro.core.data.local.sports
 
+import app.cash.turbine.test
 import br.leandro.core.data.local.dao.SportDao
 import br.leandro.core.data.local.datasource.sports.SportsLocalDataSourceImpl
 import br.leandro.core.data.local.entity.SportEntity
@@ -19,6 +20,15 @@ import org.junit.Test
 class SportsLocalDataSourceTest {
     private val dao: SportDao = mockk(relaxed = true)
     private lateinit var dataSource: SportsLocalDataSourceImpl
+    private val entitySportsList = listOf(
+        SportEntity(
+            id = "1",
+            name = "Soccer",
+            description = "Soccer description",
+            iconUrl = "",
+            imageUrl = ""
+        )
+    )
 
     @Before
     fun setup() {
@@ -28,27 +38,21 @@ class SportsLocalDataSourceTest {
 
     @Test
     fun `when getSports is called should return sports list`() = runTest {
-        val entitySportsList = listOf(
-            SportEntity(
-                id = "1",
-                name = "Soccer",
-                description = "Soccer description",
-                iconUrl = "",
-                imageUrl = ""
-            )
-        )
+
         every { dao.getSports() } returns flowOf(entitySportsList)
-        val flow = dataSource.getSports()
-        val result = flow.toList()
-        assertEquals(entitySportsList.size, result.size)
-        assertEquals(entitySportsList.first().id, result.first().first().id)
+        val result = dataSource.getSports()
+        result.test {
+            assertEquals(entitySportsList, awaitItem())
+            awaitComplete()
+
+        }
 
 
     }
 
     @Test
     fun `has data should return true when dao has data`() = runTest {
-        coEvery { dao.count() } returns 1
+        coEvery { dao.count() } returns entitySportsList.size
         val result = dataSource.hasData()
         assertEquals(true, result)
 
@@ -56,24 +60,15 @@ class SportsLocalDataSourceTest {
 
     @Test
     fun `when insert is called and count is greater than zero then hasData returns true`() = runTest {
-        val sports = listOf(
-            SportEntity(
-                id = "1",
-                name = "Soccer",
-                description = "desc",
-                iconUrl = "",
-                imageUrl = ""
-            )
-        )
 
-        coEvery { dao.insertSports(sports) } just Runs
-        coEvery { dao.count() } returns 1
+        coEvery { dao.insertSports(entitySportsList) } just Runs
+        coEvery { dao.count() } returns entitySportsList.size
 
-        dataSource.saveSports(sports)
+        dataSource.saveSports(entitySportsList)
         val result = dataSource.hasData()
         assertEquals(true, result)
 
-        coVerify(exactly = 1) { dao.insertSports(sports) }
+        coVerify(exactly = 1) { dao.insertSports(entitySportsList) }
         coVerify(exactly = 1) { dao.count() }
 
     }

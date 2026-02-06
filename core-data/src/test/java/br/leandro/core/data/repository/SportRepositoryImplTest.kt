@@ -5,6 +5,7 @@ import br.leandro.core.data.local.datasource.sports.SportsLocalDataSource
 import br.leandro.core.data.local.entity.SportEntity
 import br.leandro.core.data.remote.sports.SportsRemoteDataSource
 import br.leandro.core.domain.model.AppError
+import br.leandro.core.domain.repository.SportRepository
 import br.leandro.core.network.model.dto.SportsDto
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -14,13 +15,20 @@ import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
+import org.junit.Before
 import org.junit.Test
 import java.net.UnknownHostException
 
 class SportRepositoryImplTest {
     private val remoteDataSource : SportsRemoteDataSource = mockk()
     private val localDataSource : SportsLocalDataSource = mockk()
-    private val repository = SportRepositoryImpl(remoteDataSource, localDataSource)
+    private lateinit var repository : SportRepository
+
+    @Before
+    fun setup() {
+        repository = SportRepositoryImpl(remoteDataSource, localDataSource)
+    }
+
 
     @Test
     fun `when api answer success should update local list and return sports list`() = runTest {
@@ -57,9 +65,7 @@ class SportRepositoryImplTest {
         coEvery { localDataSource.getSports() } returns flowOf(emptyList())
         coEvery { localDataSource.hasData() } returns false
         coEvery { remoteDataSource.getSports() } throws UnknownHostException()
-
         repository.getSports().collect()
-
 
     }
 

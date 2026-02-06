@@ -15,8 +15,9 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 
-class CountryRepositoryImpl(private val localDataSource : CountriesLocalDataSource,
-                            private val remoteDataSource : CountriesRemoteDataSource
+class CountryRepositoryImpl(
+    private val localDataSource: CountriesLocalDataSource,
+    private val remoteDataSource: CountriesRemoteDataSource
 ) : CountryRepository {
 
     override suspend fun getCountries(): Flow<List<Country>> = flow {
@@ -25,7 +26,7 @@ class CountryRepositoryImpl(private val localDataSource : CountriesLocalDataSour
             localDataSource.saveCountries(remoteCountries.map { it.toDomain().toEntity() })
 
         } catch (t: Throwable) {
-            if(!localDataSource.hasData()) throw t.toNetworkError().toAppError()
+            if (!localDataSource.hasData()) throw t.toNetworkError().toAppError()
         }
         emitAll(localDataSource.getCountries().map { list -> list.map { it.toDomain() } })
 

@@ -47,7 +47,6 @@ class SportsListScreenTest {
             )
         }
 
-        // No wait needed - data is passed directly
         composeTestRule.onNodeWithText("Soccer").assertIsDisplayed()
         composeTestRule.onNodeWithText("Basketball").assertIsDisplayed()
     }
@@ -84,4 +83,5 @@ class SportsListScreenTest {
         composeTestRule.onNodeWithText("Soccer").performClick()
         assertTrue(clicked)
     }
+
 }

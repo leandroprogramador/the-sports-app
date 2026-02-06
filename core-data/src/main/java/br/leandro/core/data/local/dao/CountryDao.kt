@@ -18,4 +18,9 @@ interface CountryDao {
     @Query("SELECT COUNT(*) FROM countries")
     suspend fun count() : Int
 
+    @Query("DELETE FROM countries")
+    suspend fun clear()
 }
+
+
+

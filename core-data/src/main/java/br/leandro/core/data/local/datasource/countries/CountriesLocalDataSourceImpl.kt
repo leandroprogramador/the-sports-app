@@ -5,10 +5,11 @@ import br.leandro.core.data.local.entity.CountryEntity
 import kotlinx.coroutines.flow.Flow
 
 class CountriesLocalDataSourceImpl(private val dao : CountryDao) : CountriesLocalDataSource {
-    override fun getCountries(): Flow<List<CountryEntity>> = dao.getCountries()
+     override suspend fun getCountries(): Flow<List<CountryEntity>> = dao.getCountries()
 
 
     override suspend fun saveCountries(countries: List<CountryEntity>) {
+        dao.clear()
         dao.insertCountries(countries)
     }
 

@@ -1,15 +1,23 @@
-package br.leandro.thesportsapp.feature.sportslist
+@file:OptIn(ExperimentalCoroutinesApi::class)
+
+package br.leandro.thesportsapp.feature.countries
 
 import androidx.test.core.app.ApplicationProvider
 import app.cash.turbine.test
 import br.leandro.core.data.local.database.SportsDatabase
-import br.leandro.core.data.local.entity.SportEntity
+import br.leandro.core.data.local.entity.CountryEntity
+import br.leandro.core.data.remote.country.CountriesRemoteDataSource
 import br.leandro.core.domain.di.coreDomainModule
+import br.leandro.core.domain.model.AppError
+import br.leandro.core.network.model.dto.CountriesResponseDto
+import br.leandro.core.network.model.dto.CountryDto
 import br.leandro.thesportsapp.di.appModule
 import br.leandro.thesportsapp.di.inMemoryDataBaseModule
-import br.leandro.thesportsapp.di.testSportDataModule
+import br.leandro.thesportsapp.di.testCountryDataModule
 import br.leandro.thesportsapp.util.NetworkProvider.createRetrofitServer
 import br.leandro.thesportsapp.util.NetworkProvider.getJsonString
+import com.google.gson.Gson
+import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -24,23 +32,21 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.android.ext.koin.androidContext
+import org.koin.core.component.inject
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.get
-import org.koin.test.inject
 import org.robolectric.RobolectricTestRunner
-import kotlin.test.assertEquals
+import kotlin.test.assertFails
 import kotlin.test.assertTrue
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(RobolectricTestRunner::class)
-class SportsListIntegrationTest : KoinTest {
-
+class CountriesIntegrationTest : KoinTest {
     private lateinit var server: MockWebServer
     private val testDispatcher = UnconfinedTestDispatcher()
-    private val viewModel: SportsListViewModel by inject()
+    private val viewModel: CountriesViewModel by inject()
 
     @Before
     fun setup() {
@@ -56,7 +62,7 @@ class SportsListIntegrationTest : KoinTest {
                     }
                 },
                 inMemoryDataBaseModule,
-                testSportDataModule,
+                testCountryDataModule,
                 coreDomainModule,
                 appModule
             )
@@ -72,97 +78,97 @@ class SportsListIntegrationTest : KoinTest {
 
     @Test
     fun `offline first flow emits local first then remote`() = runTest(testDispatcher) {
-        val dao = get<SportsDatabase>().sportDao()
-        val localSport = SportEntity(
-            id = "103",
-            name = "Basketball",
-            description = "Description",
-            iconUrl = "url_icon",
-            imageUrl = "url_thumb"
+        val dao = get<SportsDatabase>().countryDao()
+        val localCountry = CountryEntity(
+            name = "Argentina",
+            flagUrl = "url_icon"
         )
-        dao.insertSports(listOf(localSport))
+        dao.insertCountries(listOf(localCountry))
 
-        val json = getJsonString("sports_response.json")
+        val json = getJsonString("country_response.json")
         assertTrue(json.isNotEmpty(), "JSON não encontrado ou vazio")
-
         server.enqueue(MockResponse().setResponseCode(200).setBody(json))
 
-
         advanceUntilIdle()
 
         viewModel.uiState.test {
             val loading = awaitItem()
-            assertTrue(loading is SportsListUiState.Loading)
+            println("DEBUG: Loading $loading")
+            assertTrue(loading is CountriesUiState.Loading)
+
 
             val success = awaitItem()
-            assertTrue(success is SportsListUiState.Success)
+            println("DEBUG: Success $success")
 
-            assertEquals(2, success.sports.size)
-            assertTrue(success.sports.any { it.name == "Soccer" })
+            assertTrue(success is CountriesUiState.Success)
+            assertEquals(3, success.countries.size)
+            assertTrue(success.countries.any { it.name == "Andorra" })
 
             cancelAndIgnoreRemainingEvents()
         }
 
 
-        dao.getSports().test {
-            val sports = awaitItem()
-            println("DEBUG: DAO retornou -> $sports")
-            assertEquals(2, sports.size)
-            assertTrue(sports.any { it.name == "Soccer" })
+        dao.getCountries().test {
+            val countries = awaitItem()
+            println("DEBUG: DAO retornou -> $countries")
+
+            assertEquals(3, countries.size)
+            assertTrue(countries.any { it.name == "Andorra" })
         }
 
     }
 
     @Test
-    fun `offline first flow emits local when api fails but local data exists`() = runTest(testDispatcher) {
-        val dao = get<SportsDatabase>().sportDao()
-        val localSport = SportEntity(
-            id = "201",
-            name = "Volleyball",
-            description = "Local description",
-            iconUrl = "local_icon",
-            imageUrl = "local_thumb"
+    fun `offline first flow return local data when remote fails`() = runTest {
+        val dao = get<SportsDatabase>().countryDao()
+        val countries = listOf(
+            CountryEntity(
+                name = "Argentina",
+                flagUrl = "url_icon"
+            ),
+            CountryEntity(
+                name = "Brazil",
+                flagUrl = "url_icon"
+            )
         )
-        dao.insertSports(listOf(localSport))
-
+        dao.insertCountries(countries)
         server.enqueue(MockResponse().setResponseCode(500))
-
         advanceUntilIdle()
 
         viewModel.uiState.test {
             val loading = awaitItem()
-            assertTrue(loading is SportsListUiState.Loading)
+            println("DEBUG: Loading $loading")
+            assertTrue(loading is CountriesUiState.Loading)
+
             val success = awaitItem()
-            assertTrue(success is SportsListUiState.Success)
-            assertEquals(1, success.sports.size)
-            assertEquals("Volleyball", success.sports.first().name)
+            println("DEBUG: Success $success")
+            assertTrue(success is CountriesUiState.Success)
+            assertEquals(2, success.countries.size)
 
             cancelAndIgnoreRemainingEvents()
+
         }
     }
 
     @Test
-    fun `offline first flow emits error when api fails and no local data`() = runTest(testDispatcher) {
-
+    fun `offline first flows emits error when api fails and no local data`() = runTest {
         server.enqueue(MockResponse().setResponseCode(500))
-
         advanceUntilIdle()
-
         viewModel.uiState.test {
             val loading = awaitItem()
-            assertTrue(loading is SportsListUiState.Loading)
+            println("DEBUG: Loading $loading")
+            assertTrue(loading is CountriesUiState.Loading)
+
             val error = awaitItem()
-            assertTrue(error is SportsListUiState.Error)
+            println("DEBUG: Error $error")
+            assertTrue(error is CountriesUiState.Error)
+            assertTrue(error.error is AppError.ServiceUnavailable)
 
             cancelAndIgnoreRemainingEvents()
-        }
-    }
 
+        }
+
+    }
 
 
 }
-
-
-
-
-

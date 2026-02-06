@@ -1,0 +1,16 @@
+{
+  "countries": [
+    {
+      "name_en": "Andorra",
+      "flag_url_32": "https://www.thesportsdb.com/images/icons/flags/shiny/32/Andorra.png"
+    },
+    {
+      "name_en": "United Arab Emirates",
+      "flag_url_32": "https://www.thesportsdb.com/images/icons/flags/shiny/32/United-Arab-Emirates.png"
+    },
+    {
+      "name_en": "Afghanistan",
+      "flag_url_32": "https://www.thesportsdb.com/images/icons/flags/shiny/32/Afghanistan.png"
+    }
+  ]
+}
