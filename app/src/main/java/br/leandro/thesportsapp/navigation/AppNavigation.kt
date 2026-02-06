@@ -23,6 +23,8 @@ import androidx.navigation3.ui.NavDisplay
 import br.leandro.thesportsapp.feature.sportdetails.SportDetailsRoute
 import br.leandro.thesportsapp.feature.sportslist.SportsListRoute
 import br.leandro.thesportsapp.R
+import br.leandro.thesportsapp.feature.countries.CountriesRoute
+import br.leandro.thesportsapp.navigation.AppRoute.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,8 +38,9 @@ fun AppNavigation() {
                 title = {
                     Text(
                         text =  when (currentRoute) {
-                            is AppRoute.SportsList -> stringResource(R.string.sports)
-                            is AppRoute.SportsDetails -> stringResource(R.string.details)
+                            is SportsList -> stringResource(R.string.sports)
+                            is SportsDetails -> stringResource(R.string.details)
+                            is CountryList -> stringResource(R.string.countries)
                         },
                         style = MaterialTheme.typography.titleLarge
                     )
@@ -71,19 +74,28 @@ fun AppNavDisplay(backStack: MutableList<AppRoute>, currentRoute : AppRoute, inn
             onBack = { backStack.removeLastOrNull() },
             entryProvider = { navKey ->
                 when (navKey) {
-                    is AppRoute.SportsList -> {
+                    is SportsList -> {
                         NavEntry(navKey) {
                             SportsListRoute(
                                 onSportClick = { sport ->
-                                    backStack.add(AppRoute.SportsDetails(sport))
+                                    backStack.add(SportsDetails(sport))
                                 }
                             )
                         }
                     }
 
-                    is AppRoute.SportsDetails -> {
+                    is SportsDetails -> {
                         NavEntry(navKey) {
-                            SportDetailsRoute(sport = navKey.sport)
+                            SportDetailsRoute(sport = navKey.sport) {sport ->
+                                backStack.add(CountryList(sport))
+
+                            }
+                        }
+                    }
+
+                    is CountryList -> {
+                        NavEntry(navKey) {
+                            CountriesRoute(sport = navKey.sport) {country, sport ->  }
                         }
                     }
                 }

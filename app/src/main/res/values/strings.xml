@@ -9,5 +9,9 @@
     <string name="sports">Esportes</string>
     <string name="loading">Carregando…</string>
     <string name="see_leagues">Ver Ligas</string>
+    <string name="loading_countries">Carregando países…</string>
+    <string name="empty_countries">Nenhum país para ser exibido.</string>
+    <string name="countries">Países</string>
+    <string name="search_countries">Pesquisar países…</string>
 
 </resources>

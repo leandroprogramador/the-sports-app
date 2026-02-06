@@ -19,7 +19,7 @@ class SportDetailsScreenTest {
         val uiState = SportDetailsUiState.Success(sport)
 
         composeTestRule.setContent {
-            SportDetailsScreen(uiState)
+            SportDetailsScreen(uiState) {}
         }
 
         composeTestRule.onNodeWithText("Soccer").assertIsDisplayed()
@@ -31,7 +31,7 @@ class SportDetailsScreenTest {
     fun shouldShowLoadingIndicator() {
         val uiState = SportDetailsUiState.Loading
         composeTestRule.setContent {
-            SportDetailsScreen(uiState)
+            SportDetailsScreen(uiState){}
         }
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val expectedText = context.getString(br.leandro.thesportsapp.R.string.loading_sports_details)

@@ -20,8 +20,8 @@ class SportsListViewModel(private val getSportsUseCase: GetSportsUseCase) : View
     private val _uiState = MutableStateFlow<SportsListUiState>(SportsListUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
-    private val _events = MutableSharedFlow<SportsListUiEvent?>()
-    val events : SharedFlow<SportsListUiEvent?> = _events.asSharedFlow()
+    private val _events = MutableSharedFlow<SportsListUiEvent>()
+    val events : SharedFlow<SportsListUiEvent> = _events.asSharedFlow()
 
     init {
         getSports()

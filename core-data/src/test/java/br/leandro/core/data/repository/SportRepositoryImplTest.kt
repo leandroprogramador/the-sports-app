@@ -6,21 +6,15 @@ import br.leandro.core.data.local.entity.SportEntity
 import br.leandro.core.data.remote.sports.SportsRemoteDataSource
 import br.leandro.core.domain.model.AppError
 import br.leandro.core.network.model.dto.SportsDto
-import br.leandro.core.network.model.dto.SportsResponseDto
 import io.mockk.Runs
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.just
-import kotlinx.coroutines.test.runTest
-
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 import org.junit.Test
-import java.io.IOException
 import java.net.UnknownHostException
 
 class SportRepositoryImplTest {
