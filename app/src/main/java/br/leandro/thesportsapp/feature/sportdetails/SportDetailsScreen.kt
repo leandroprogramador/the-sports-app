@@ -9,29 +9,61 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import br.leandro.core.domain.model.Sport
 import br.leandro.thesportsapp.ui.components.indicators.LoadingIndicator
 import coil.compose.AsyncImage
+import br.leandro.thesportsapp.R
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 @Composable
-fun SportDetailsScreen(uiState: SportDetailsUiState) {
-    when(uiState) {
-        SportDetailsUiState.Loading -> LoadingIndicator(message = "Carregando detalhes do esporte...", modifier = Modifier)
-        is SportDetailsUiState.Success -> SportDetailsContent(sport = uiState.sport )
+fun SportDetailsScreen(
+    uiState: SportDetailsUiState,
+    onSeeLeaguesClick: (Sport) -> Unit
+) {
+    when (uiState) {
+        SportDetailsUiState.Loading -> LoadingIndicator(
+            message = stringResource(R.string.loading_sports_details),
+            modifier = Modifier
+        )
+
+        is SportDetailsUiState.Success -> {
+            Scaffold(
+                floatingActionButton = { ExtendedFloatingActionButton(
+                        onClick = { onSeeLeaguesClick(uiState.sport) },
+                        icon = { Icon(Icons.AutoMirrored.Filled.List, contentDescription = null) },
+                        text = { Text(stringResource(R.string.see_leagues)) } )
+                }
+
+            ) { innerPadding ->
+                SportDetailsContent(
+                    sport = uiState.sport,
+                    modifier = Modifier.padding(innerPadding)
+                )
+
+            }
+        }
     }
 }
 
 @Composable
-fun SportDetailsContent(sport: Sport) {
+fun SportDetailsContent(sport: Sport, modifier: Modifier = Modifier) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .padding(bottom = 24.dp)
@@ -58,7 +90,9 @@ fun SportDetailsContent(sport: Sport) {
         HorizontalDivider(
             modifier = Modifier
                 .width(80.dp)
-                .padding(horizontal = 16.dp), thickness = 4.dp, color = MaterialTheme.colorScheme.primary
+                .padding(horizontal = 16.dp),
+            thickness = 4.dp,
+            color = MaterialTheme.colorScheme.primary
         )
 
         Spacer(modifier = Modifier.height(12.dp))

@@ -3,6 +3,7 @@ package br.leandro.thesportsapp.feature.sportdetails
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
+import androidx.test.platform.app.InstrumentationRegistry
 import br.leandro.core.domain.model.Sport
 import org.junit.Rule
 import org.junit.Test
@@ -18,7 +19,7 @@ class SportDetailsScreenTest {
         val uiState = SportDetailsUiState.Success(sport)
 
         composeTestRule.setContent {
-            SportDetailsScreen(uiState)
+            SportDetailsScreen(uiState) {}
         }
 
         composeTestRule.onNodeWithText("Soccer").assertIsDisplayed()
@@ -30,9 +31,11 @@ class SportDetailsScreenTest {
     fun shouldShowLoadingIndicator() {
         val uiState = SportDetailsUiState.Loading
         composeTestRule.setContent {
-            SportDetailsScreen(uiState)
+            SportDetailsScreen(uiState){}
         }
-        composeTestRule.onNodeWithText("Carregando detalhes do esporte...").assertIsDisplayed()
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val expectedText = context.getString(br.leandro.thesportsapp.R.string.loading_sports_details)
+        composeTestRule.onNodeWithText(expectedText).assertIsDisplayed()
 
     }
 }

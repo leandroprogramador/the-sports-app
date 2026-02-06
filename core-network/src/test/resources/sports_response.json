@@ -1,0 +1,13 @@
+{
+  "sports": [
+    {
+      "idSport": "102",
+      "strFormat": "TeamvsTeam",
+      "strSport": "Soccer",
+      "strSportDescription": "Description",
+      "strSportThumb": "url_thumb",
+      "strSportThumbBW": "url_thumb_bw",
+      "strSportIconGreen": "url_icon"
+    }
+  ]
+}

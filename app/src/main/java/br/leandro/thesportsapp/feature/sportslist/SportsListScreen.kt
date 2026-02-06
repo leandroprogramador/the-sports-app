@@ -2,9 +2,12 @@ package br.leandro.thesportsapp.feature.sportslist
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import br.leandro.core.domain.model.Sport
 import br.leandro.thesportsapp.ui.components.indicators.ErrorIndicator
 import br.leandro.thesportsapp.ui.components.indicators.LoadingIndicator
+import br.leandro.thesportsapp.R
+
 
 @Composable
 fun SportsListScreen(
@@ -12,7 +15,7 @@ fun SportsListScreen(
     onSportClick: (Sport) -> Unit
 ) {
     when(uiState) {
-        SportsListUiState.Loading -> LoadingIndicator(message = "Carregando esportes...", modifier = Modifier)
+        SportsListUiState.Loading -> LoadingIndicator(message = stringResource(R.string.loading_sports), modifier = Modifier)
         is SportsListUiState.Success -> SportsListContent(
             sports = uiState.sports,
             onSportClick = onSportClick

@@ -7,6 +7,7 @@ coreKtx = "1.13.1"
 #Testes
 junit = "4.13.2"
 androidxJunit = "1.1.5"
+robolectric = "4.16.1"
 uiTestJunit4 = "1.7.0"
 kotlinxCoroutinesTest = "1.7.3"
 mockk = "1.13.9"
@@ -17,7 +18,8 @@ appcompat = "1.7.1"
 material = "1.13.0"
 coreSplash = "1.2.0"
 composeBom = "2025.02.00"
-activityCompose = "1.10.0"
+compose = "1.10.0"
+composeIcons = "1.7.8"
 lifecycle = "2.8.7"
 navigation3 = "1.0.0"
 coil = "2.7.0"
@@ -31,6 +33,8 @@ coroutines = "1.8.1"
 activity = "1.12.3"
 constraintlayout = "2.2.1"
 okhttp = "4.12.0"
+room = "2.8.4"
+ksp = "2.3.5"
 
 
 
@@ -48,7 +52,8 @@ androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
-androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "compose" }
+material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "composeIcons" }
 
 #coil
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
@@ -64,6 +69,8 @@ androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lif
 # Koin
 koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
+koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
+
 
 # Retrofit
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
@@ -77,11 +84,18 @@ kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 
+# Room
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+
 # ------ TEST -------
 
 # Test Core
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+
 
 # Koin Test
 koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koin" }
@@ -100,8 +114,12 @@ androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-te
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version.ref = "uiTestJunit4" }
 mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
 
+# Room
+room-testing = { module = "androidx.room:room-testing", version.ref = "room" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
+ksp ={id = "com.google.devtools.ksp", version.ref = "ksp" }

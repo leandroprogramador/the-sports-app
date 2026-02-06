@@ -4,8 +4,10 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.test.platform.app.InstrumentationRegistry
 import br.leandro.core.domain.model.AppError
 import br.leandro.core.domain.model.Sport
+import br.leandro.thesportsapp.test.R
 import junit.framework.TestCase.assertTrue
 import org.junit.Rule
 import org.junit.Test
@@ -24,7 +26,10 @@ class SportsListScreenTest {
             )
         }
 
-        composeTestRule.onNodeWithText("Carregando", substring = true)
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val expectedText = context.getString(br.leandro.thesportsapp.R.string.loading_sports)
+
+        composeTestRule.onNodeWithText(expectedText, substring = true)
             .assertIsDisplayed()
     }
 
@@ -42,7 +47,6 @@ class SportsListScreenTest {
             )
         }
 
-        // No wait needed - data is passed directly
         composeTestRule.onNodeWithText("Soccer").assertIsDisplayed()
         composeTestRule.onNodeWithText("Basketball").assertIsDisplayed()
     }
@@ -56,7 +60,9 @@ class SportsListScreenTest {
             )
         }
 
-        composeTestRule.onNodeWithText(AppError.NoConnection.message, substring = true)
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val expectedText = context.getString(br.leandro.thesportsapp.R.string.error_no_connection)
+        composeTestRule.onNodeWithText(expectedText, substring = true)
             .assertIsDisplayed()
     }
 
@@ -77,4 +83,5 @@ class SportsListScreenTest {
         composeTestRule.onNodeWithText("Soccer").performClick()
         assertTrue(clicked)
     }
+
 }

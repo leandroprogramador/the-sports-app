@@ -84,6 +84,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.material.icons.extended)
 
     // Navigation 3
     implementation(libs.androidx.navigation3.runtime)
@@ -95,7 +96,8 @@ dependencies {
 
     // Koin
     implementation(libs.koin.androidx.compose)
-        // Coroutines & Flow
+
+    // Coroutines & Flow
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
@@ -119,6 +121,8 @@ dependencies {
     testImplementation(libs.okhttp.mockwebserver)
     testImplementation(libs.retrofit)
     testImplementation(libs.retrofit.converter.gson)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.room.testing)
 
 
     androidTestImplementation(libs.androidx.junit)

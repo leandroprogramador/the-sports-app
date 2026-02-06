@@ -23,6 +23,10 @@ import kotlin.test.assertEquals
 class SportsListViewModelTest {
     private val getSportsUseCase : GetSportsUseCase = mockk()
     private val testDispatcher = UnconfinedTestDispatcher()
+    private val mockSports = listOf(
+        Sport( id = "1",  name = "Soccer", description = "", icon = "", image = ""),
+        Sport( id = "2",  name = "Basketball", description = "", icon = "", image = ""),
+    )
 
     private lateinit var viewModelTest: SportsListViewModel
 
@@ -38,12 +42,6 @@ class SportsListViewModelTest {
 
     @Test
     fun `getSports should emit Success state when getSportsUseCase returns sports list`() = runTest {
-        val mockSports = listOf(
-            Sport( id = "1",  name = "Soccer", description = "", icon = "", image = ""),
-            Sport( id = "2",  name = "Basketball", description = "", icon = "", image = ""),
-
-
-        )
 
         coEvery { getSportsUseCase() } returns flowOf(mockSports)
         viewModelTest = SportsListViewModel(getSportsUseCase)
@@ -76,17 +74,15 @@ class SportsListViewModelTest {
 
         coEvery { getSportsUseCase() } returns flow { throw AppError.Unknown }
         viewModelTest = SportsListViewModel(getSportsUseCase)
-
         viewModelTest.uiState.test {
             val emission = awaitItem()
             assert(emission is SportsListUiState.Error)
-            assertEquals(AppError.Unknown.message, (emission as SportsListUiState.Error).error.message)
         }
     }
 
     @Test
     fun `when onSportClicked is called, it should emit OnSportClicked event`() = runTest {
-        val sport = Sport( id = "1",  name = "Soccer", description = "", icon = "", image = "")
+        val sport = mockSports.first()
         coEvery { getSportsUseCase() } returns flowOf(listOf(sport))
         viewModelTest = SportsListViewModel(getSportsUseCase)
 

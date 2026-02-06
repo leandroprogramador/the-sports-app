@@ -8,6 +8,15 @@
       "strSportThumb": "url_thumb",
       "strSportThumbBW": "url_thumb_bw",
       "strSportIconGreen": "url_icon"
+    },
+    {
+      "idSport": "103",
+      "strFormat": "TeamvsTeam",
+      "strSport": "Golf",
+      "strSportDescription": "Description",
+      "strSportThumb": "url_thumb",
+      "strSportThumbBW": "url_thumb_bw",
+      "strSportIconGreen": "url_icon"
     }
   ]
 }
