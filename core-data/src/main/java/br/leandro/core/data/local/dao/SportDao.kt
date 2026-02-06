@@ -17,6 +17,9 @@ interface SportDao {
 
     @Query("SELECT COUNT(*) FROM sports")
     suspend fun count(): Int
+
+    @Query("DELETE FROM sports")
+    suspend fun clear()
 }
 
 

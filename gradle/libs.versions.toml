@@ -7,6 +7,7 @@ coreKtx = "1.13.1"
 #Testes
 junit = "4.13.2"
 androidxJunit = "1.1.5"
+robolectric = "4.16.1"
 uiTestJunit4 = "1.7.0"
 kotlinxCoroutinesTest = "1.7.3"
 mockk = "1.13.9"
@@ -91,6 +92,8 @@ androidx-room-compiler = { group = "androidx.room", name = "room-compiler", vers
 # Test Core
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+
 
 # Koin Test
 koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koin" }
@@ -108,6 +111,9 @@ androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "a
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "uiTestJunit4" }
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version.ref = "uiTestJunit4" }
 mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
+
+# Room
+room-testing = { module = "androidx.room:room-testing", version.ref = "room" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

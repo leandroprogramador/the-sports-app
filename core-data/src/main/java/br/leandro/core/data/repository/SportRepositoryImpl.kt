@@ -22,6 +22,7 @@ class SportRepositoryImpl(private val remoteDataSource: SportsRemoteDataSource, 
         flow {
             try {
                 val remoteSports = remoteDataSource.getSports()
+
                 local.saveSports(
                     remoteSports.map { it.toDomain().toEntity() }
                 )

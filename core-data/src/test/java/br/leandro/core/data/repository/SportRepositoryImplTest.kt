@@ -1,72 +1,95 @@
 package br.leandro.core.data.repository
 
 import app.cash.turbine.test
+import br.leandro.core.data.local.datasource.sports.SportsLocalDataSource
+import br.leandro.core.data.local.entity.SportEntity
 import br.leandro.core.data.remote.sports.SportsRemoteDataSource
 import br.leandro.core.domain.model.AppError
 import br.leandro.core.network.model.dto.SportsDto
 import br.leandro.core.network.model.dto.SportsResponseDto
+import io.mockk.Runs
 import io.mockk.coEvery
+import io.mockk.every
+import io.mockk.just
 import kotlinx.coroutines.test.runTest
 
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import org.junit.Test
+import java.io.IOException
+import java.net.UnknownHostException
 
 class SportRepositoryImplTest {
-    private val dataSource : SportsRemoteDataSource = mockk()
-    private val repository = SportRepositoryImpl(dataSource)
+    private val remoteDataSource : SportsRemoteDataSource = mockk()
+    private val localDataSource : SportsLocalDataSource = mockk()
+    private val repository = SportRepositoryImpl(remoteDataSource, localDataSource)
 
     @Test
-    fun `getSports should call data source and map to domain models`() = runTest {
-        val mockDto = SportsDto(
-            idSport = "102",
+    fun `when api answer success should update local list and return sports list`() = runTest {
+        coEvery { localDataSource.getSports() } returns flowOf(sportEntity())
+        coEvery { remoteDataSource.getSports() } returns sportsDto()
+
+        coEvery { localDataSource.saveSports(any()) } just Runs
+        coEvery { localDataSource.hasData() } returns true
+
+        val result = repository.getSports()
+        result.test {
+            assertEquals(sportEntity().first().id, awaitItem().first().id)
+            awaitComplete()
+        }
+
+    }
+
+    @Test
+    fun `when api fails and has local should return local sports list`() = runTest {
+        coEvery { localDataSource.getSports() } returns flowOf(sportEntity())
+        coEvery { remoteDataSource.getSports() } throws AppError.ServiceUnavailable
+        coEvery { localDataSource.hasData() } returns true
+
+        val result = repository.getSports()
+        result.test {
+            assertEquals(sportEntity().first().id, awaitItem().first().id)
+            awaitComplete()
+        }
+
+    }
+
+    @Test(expected = AppError.NoConnection::class)
+    fun `when api fails and has no local should throw exception`() = runTest {
+        coEvery { localDataSource.getSports() } returns flowOf(emptyList())
+        coEvery { localDataSource.hasData() } returns false
+        coEvery { remoteDataSource.getSports() } throws UnknownHostException()
+
+        repository.getSports().collect()
+
+
+    }
+
+
+    private fun sportEntity() = listOf(
+        SportEntity(
+            id = "1",
+            name = "Soccer",
+            description = "Soccer description",
+            iconUrl = "",
+            imageUrl = ""
+        )
+    )
+
+    private fun sportsDto() = listOf(
+        SportsDto(
+            idSport = "1",
             strFormat = "TeamvsTeam",
             strSport = "Soccer",
-            strSportThumb = "thumb_url",
-            strSportThumbBW = "thumb_url",
-            strSportIconGreen = "icon_url",
-            strSportDescription = "Description",
+            strSportDescription = "Soccer description",
+            strSportThumb = "",
+            strSportThumbBW = "",
+            strSportIconGreen = ""
         )
 
-        val mockResponse = SportsResponseDto(sports = listOf(mockDto))
-        coEvery { dataSource.getSports() } returns mockResponse
-
-        val result = repository.getSports()
-
-        result.test {
-            val sportsList = awaitItem()
-            assertEquals(1, sportsList.size)
-            val sportItem = sportsList.first()
-            assertEquals("102", sportItem.id)
-            assertEquals("Soccer", sportItem.name)
-
-            awaitComplete()
-        }
-
-    }
-
-    @Test
-    fun `getSports should return empty list when data source returns null`() = runTest {
-        val mockResponse = SportsResponseDto(sports = null)
-        coEvery { dataSource.getSports() } returns mockResponse
-        val result = repository.getSports()
-
-        result.test {
-            val sportsList = awaitItem()
-            assertEquals(0, sportsList.size)
-            awaitComplete()
-            }
-
-
-    }
-
-    @Test
-    fun `getSports should throw exception when data source fails`() = runTest {
-        coEvery { dataSource.getSports() } throws AppError.Unknown
-
-        repository.getSports().test {
-            val error = awaitError()
-            assertEquals(AppError.Unknown.message, error.message)
-        }
-    }
+    )
 }

@@ -7,6 +7,7 @@ interface SportsLocalDataSource {
     suspend fun getSports() : Flow<List<SportEntity>>
     suspend fun saveSports(sports: List<SportEntity>)
     suspend fun hasData() : Boolean
+    suspend fun clear()
 }
 
 
