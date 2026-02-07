@@ -1,6 +1,7 @@
 package br.leandro.thesportsapp.di
 
 import br.leandro.thesportsapp.feature.countries.CountriesViewModel
+import br.leandro.thesportsapp.feature.leaguedetails.LeagueDetailsViewModel
 import br.leandro.thesportsapp.feature.leagueslist.LeaguesViewModel
 import br.leandro.thesportsapp.feature.sportdetails.SportDetailsViewModel
 import br.leandro.thesportsapp.feature.sportslist.SportsListViewModel
@@ -13,4 +14,5 @@ val appModule = module {
     viewModel { SportDetailsViewModel() }
     viewModel { CountriesViewModel(get()) }
     viewModel { LeaguesViewModel(get()) }
+    viewModel { LeagueDetailsViewModel() }
 }

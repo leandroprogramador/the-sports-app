@@ -24,6 +24,7 @@ import br.leandro.thesportsapp.feature.sportdetails.SportDetailsRoute
 import br.leandro.thesportsapp.feature.sportslist.SportsListRoute
 import br.leandro.thesportsapp.R
 import br.leandro.thesportsapp.feature.countries.CountriesRoute
+import br.leandro.thesportsapp.feature.leaguedetails.LeagueDetailsRoute
 import br.leandro.thesportsapp.feature.leagueslist.LeaguesRoute
 import br.leandro.thesportsapp.navigation.AppRoute.*
 
@@ -68,6 +69,7 @@ private fun getPageTitle(currentRoute: AppRoute): String = when (currentRoute) {
     is SportsDetails -> stringResource(R.string.details)
     is CountryList -> stringResource(R.string.countries)
     is LeaguesList -> stringResource(R.string.leagues)
+    is LeaguesDetails -> stringResource(R.string.league_details)
 }
 
 
@@ -109,8 +111,13 @@ fun AppNavDisplay(backStack: MutableList<AppRoute>, currentRoute : AppRoute, inn
                     is LeaguesList -> {
                         NavEntry(navKey) {
                             LeaguesRoute(sport = navKey.sport, country = navKey.country) { league ->
-
+                                backStack.add(LeaguesDetails(league))
                             }
+                        }
+                    }
+                    is LeaguesDetails -> {
+                        NavEntry(navKey) {
+                            LeagueDetailsRoute(navKey.league )
                         }
                     }
                 }
