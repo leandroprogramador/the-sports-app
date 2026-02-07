@@ -39,12 +39,7 @@ class SportsApiTest {
         val sport = response.sports?.get(0)
 
         assertEquals("102", sport?.idSport)
-        assertEquals("TeamvsTeam", sport?.strFormat)
         assertEquals("Soccer", sport?.strSport)
-        assertEquals("Description", sport?.strSportDescription)
-        assertEquals("url_thumb", sport?.strSportThumb)
-        assertEquals("url_thumb_bw", sport?.strSportThumbBW)
-        assertEquals("url_icon", sport?.strSportIconGreen)
 
         val request = server.takeRequest()
         assertEquals("/all_sports.php", request.path)

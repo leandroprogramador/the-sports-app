@@ -13,7 +13,7 @@ class LeaguesLocalDataSourceImpl(private val dao: LeagueDao) : LeaguesLocalDataS
     override suspend fun saveLeagues(leagues: List<LeagueEntity>) {
         if (leagues.isEmpty()) return
         dao.clearLeagues(leagues.first().country, leagues.first().sport)
-        dao.insetLeagues(leagues)
+        dao.insertLeagues(leagues)
 
     }
 

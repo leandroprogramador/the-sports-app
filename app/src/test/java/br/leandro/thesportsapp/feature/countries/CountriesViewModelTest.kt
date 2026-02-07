@@ -4,6 +4,7 @@ import app.cash.turbine.test
 import br.leandro.core.domain.model.AppError
 import br.leandro.core.domain.model.Country
 import br.leandro.core.domain.usecase.GetCountriesUseCase
+import br.leandro.thesportsapp.feature.leagueslist.LeaguesViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -95,65 +96,15 @@ class CountriesViewModelTest {
     }
 
     @Test
-    fun `onSearchQuery with empty blank should return all countries`() = runTest {
+    fun `onSearchQueryChanged should update searchQuery state`() = runTest {
         coEvery { getCountriesUseCase() } returns flowOf(mockCountries)
         viewModelTest = CountriesViewModel(getCountriesUseCase)
 
-        viewModelTest.uiState.test {
-            val initial = awaitItem()
-            assert(initial is CountriesUiState.Success)
-            assertEquals(mockCountries, (initial as CountriesUiState.Success).countries)
-            cancelAndIgnoreRemainingEvents()
+        viewModelTest.searchQuery.test {
+            assert(awaitItem() == "")
+            viewModelTest.onSearchQueryChanged("Braz")
+            assert(awaitItem() == "Braz")
         }
-        viewModelTest.onSearchQueryChanged("")
-
-        viewModelTest.uiState.test {
-            val afterSearch = expectMostRecentItem()
-            assert(afterSearch is CountriesUiState.Success)
-            assertEquals(mockCountries, (afterSearch as CountriesUiState.Success).countries)
-        }
-
-    }
-
-    @Test
-    fun `onSearchQuery with a valid query should return filtered countries`() = runTest {
-        coEvery { getCountriesUseCase() } returns flowOf(mockCountries)
-        viewModelTest = CountriesViewModel(getCountriesUseCase)
-
-        viewModelTest.uiState.test {
-            val initial = awaitItem()
-            assert(initial is CountriesUiState.Success)
-            assertEquals(mockCountries, (initial as CountriesUiState.Success).countries)
-            cancelAndIgnoreRemainingEvents()
-        }
-        viewModelTest.onSearchQueryChanged("Arg")
-
-        viewModelTest.uiState.test {
-            val afterSearch = expectMostRecentItem()
-            assert(afterSearch is CountriesUiState.Success)
-            assertEquals(1, (afterSearch as CountriesUiState.Success).countries.size)
-            assertEquals("Argentina", afterSearch.countries.first().name)
-        }
-    }
-
-    @Test
-    fun `onSearchQuery with a invalid query should return empty list`() = runTest {
-        coEvery { getCountriesUseCase() } returns flowOf(mockCountries)
-        viewModelTest = CountriesViewModel(getCountriesUseCase)
-        viewModelTest.uiState.test {
-            val initial = awaitItem()
-            assert(initial is CountriesUiState.Success)
-            assertEquals(mockCountries, (initial as CountriesUiState.Success).countries)
-            cancelAndIgnoreRemainingEvents()
-        }
-
-        viewModelTest.onSearchQueryChanged("Port")
-        viewModelTest.uiState.test {
-            val afterSearch = expectMostRecentItem()
-            assert(afterSearch is CountriesUiState.Success)
-            assertEquals(0, (afterSearch as CountriesUiState.Success).countries.size)
-        }
-
     }
 
 

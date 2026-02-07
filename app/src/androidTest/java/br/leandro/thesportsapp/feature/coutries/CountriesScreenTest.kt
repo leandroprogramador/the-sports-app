@@ -49,7 +49,7 @@ class CountriesScreenTest {
         }
 
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-        val expectedText = context.getString(br.leandro.thesportsapp.R.string.loading_countries)
+        val expectedText = context.getString(R.string.loading_countries)
 
         composeTestRule.onNodeWithText(expectedText, substring = true)
             .assertIsDisplayed()
@@ -58,8 +58,6 @@ class CountriesScreenTest {
 
     @Test
     fun shouldDisplaySuccessState() {
-
-
         composeTestRule.setContent {
             CountriesScreen(
                 uiState = CountriesUiState.Success(mockList),

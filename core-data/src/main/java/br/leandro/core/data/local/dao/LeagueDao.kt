@@ -13,7 +13,7 @@ interface LeagueDao {
     fun getLeagues(country : String, sport : String): Flow<List<LeagueEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insetLeagues(leagues: List<LeagueEntity>)
+    suspend fun insertLeagues(leagues: List<LeagueEntity>)
 
     @Query("SELECT COUNT(*) FROM leagues")
     suspend fun count(): Int

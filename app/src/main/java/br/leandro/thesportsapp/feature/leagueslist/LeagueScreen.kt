@@ -22,7 +22,7 @@ fun LeagueScreen(
             modifier = Modifier
         )
         is LeaguesUiState.Loading -> LoadingIndicator(
-            message = stringResource(R.string.loading_countries),
+            message = stringResource(R.string.loading_leagues),
             modifier = Modifier
         )
         is LeaguesUiState.Success -> {
