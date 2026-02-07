@@ -6,7 +6,7 @@ import br.leandro.core.network.model.dto.LeagueDto
 
 fun LeagueDto.toDomain() = League(
     idLeague = this.idLeague,
-    division = this.intDivision.toInt(),
+    division = if(this.intDivision.toInt() == 0) 1 else this.intDivision.toInt(),
     isCup = this.intDivision == "99",
     formedYear = this.intFormedYear,
     badge = this.strBadge,

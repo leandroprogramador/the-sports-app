@@ -18,5 +18,4 @@ data class League(
     val sport : String,
     val tvRights : String
 
-) {
-}
+)
