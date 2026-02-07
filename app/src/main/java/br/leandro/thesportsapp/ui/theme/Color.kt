@@ -2,7 +2,7 @@ package br.leandro.thesportsapp.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val PrimaryLight = Color(0xFF3F51B5)
+val PrimaryLight = Color(0xFF1F2979)
 val PrimaryLightVariant = Color(0xFF2C387E)
 val SecondaryLight = Color(0xFFFF6F00)
 val SecondaryLightVariant = Color(0xFFE65100)
