@@ -13,5 +13,20 @@
     <string name="empty_countries">Nenhum país para ser exibido.</string>
     <string name="countries">Países</string>
     <string name="search_countries">Pesquisar países…</string>
+    <string name="leagues">Ligas</string>
+    <string name="search_leagues">Pesquisar ligas…</string>
+    <string name="loading_leagues">Carregando ligas…</string>
+    <string name="empty_leagues">Nenhuma liga para ser exibida.</string>
+    <string name="division">Divisão</string>
+    <string name="league_details">Detalhes da Liga</string>
+    <string name="loading_league_detail">Carregando detalhes da liga…</string>
+    <string name="league_status">Status:</string>
+    <string name="league_tv_rights">Transmissão:</string>
+    <string name="league_founded">Ano de fundação:</string>
+    <string name="description">Descrição</string>
+    <string name="status_completed">Finalizadp</string>
+    <string name="status_in_progress">Em andamento</string>
+    <string name="cup">Torneio Eliminatório</string>
+
 
 </resources>

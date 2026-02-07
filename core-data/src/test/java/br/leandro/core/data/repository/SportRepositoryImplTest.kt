@@ -3,6 +3,8 @@ package br.leandro.core.data.repository
 import app.cash.turbine.test
 import br.leandro.core.data.local.datasource.sports.SportsLocalDataSource
 import br.leandro.core.data.local.entity.SportEntity
+import br.leandro.core.data.mapper.toDomain
+import br.leandro.core.data.mapper.toEntity
 import br.leandro.core.data.remote.sports.SportsRemoteDataSource
 import br.leandro.core.domain.model.AppError
 import br.leandro.core.domain.repository.SportRepository
@@ -35,7 +37,7 @@ class SportRepositoryImplTest {
         coEvery { localDataSource.getSports() } returns flowOf(sportEntity())
         coEvery { remoteDataSource.getSports() } returns sportsDto()
 
-        coEvery { localDataSource.saveSports(any()) } just Runs
+        coEvery { localDataSource.saveSports(sportsDto().map { it.toDomain().toEntity() }) } just Runs
         coEvery { localDataSource.hasData() } returns true
 
         val result = repository.getSports()
@@ -82,10 +84,10 @@ class SportRepositoryImplTest {
 
     private fun sportsDto() = listOf(
         SportsDto(
-            idSport = "1",
+            idSport = "2",
             strFormat = "TeamvsTeam",
-            strSport = "Soccer",
-            strSportDescription = "Soccer description",
+            strSport = "Volleyball",
+            strSportDescription = "Volleyball description",
             strSportThumb = "",
             strSportThumbBW = "",
             strSportIconGreen = ""

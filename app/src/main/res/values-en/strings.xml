@@ -15,6 +15,20 @@
     <string name="empty_countries">No country to be listed.</string>
     <string name="countries">Countries</string>
     <string name="search_countries">Search Countries…</string>
+    <string name="leagues">Leagues</string>
+    <string name="search_leagues">Search leagues…</string>
+    <string name="loading_leagues">Loading leagues…</string>
+    <string name="empty_leagues">No league to be listed.</string>
+    <string name="division">Division</string>
+    <string name="league_details">League Details</string>
+    <string name="loading_league_detail">Loading league details…</string>
+    <string name="league_status">Status:</string>
+    <string name="league_tv_rights">TV Rights:</string>
+    <string name="league_founded">Founded in:</string>
+    <string name="description">Description</string>
+    <string name="status_completed">Completed</string>
+    <string name="status_in_progress">In progress </string>
+    <string name="cup">Knockout</string>
 
 
 </resources>

@@ -25,7 +25,6 @@ class CountriesViewModel(private val getCountriesUseCase: GetCountriesUseCase) :
     private val _events = MutableSharedFlow<CountriesUiEvent>()
     val events: SharedFlow<CountriesUiEvent> = _events.asSharedFlow()
 
-    private var allCountries : List<Country> = emptyList()
 
 
 
@@ -40,19 +39,13 @@ class CountriesViewModel(private val getCountriesUseCase: GetCountriesUseCase) :
             }.catch {error ->
                 _uiState.value = CountriesUiState.Error(error as? AppError ?: AppError.Unknown)
             }.collect { countries ->
-                allCountries = countries
                 _uiState.value = CountriesUiState.Success(countries)
             }
         }
     }
 
     fun onSearchQueryChanged(query : String) {
-        viewModelScope.launch {
-            _uiState.value = CountriesUiState.Loading
-            _searchQuery.value = query
-            val filtered = if(query.isBlank()) allCountries else allCountries.filter { it.name.contains(query, ignoreCase = true) }
-            _uiState.value = CountriesUiState.Success(filtered)
-        }
+        _searchQuery.value = query
     }
 
     fun onCountryClicked(country: Country) {
@@ -62,8 +55,10 @@ class CountriesViewModel(private val getCountriesUseCase: GetCountriesUseCase) :
 
     }
 
+    fun resetSearch() {
+        _searchQuery.value = ""
 
-
+    }
 
 
 }

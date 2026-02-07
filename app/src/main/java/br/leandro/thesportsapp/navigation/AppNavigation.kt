@@ -24,6 +24,8 @@ import br.leandro.thesportsapp.feature.sportdetails.SportDetailsRoute
 import br.leandro.thesportsapp.feature.sportslist.SportsListRoute
 import br.leandro.thesportsapp.R
 import br.leandro.thesportsapp.feature.countries.CountriesRoute
+import br.leandro.thesportsapp.feature.leaguedetails.LeagueDetailsRoute
+import br.leandro.thesportsapp.feature.leagueslist.LeaguesRoute
 import br.leandro.thesportsapp.navigation.AppRoute.*
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,16 +39,12 @@ fun AppNavigation() {
             TopAppBar(
                 title = {
                     Text(
-                        text =  when (currentRoute) {
-                            is SportsList -> stringResource(R.string.sports)
-                            is SportsDetails -> stringResource(R.string.details)
-                            is CountryList -> stringResource(R.string.countries)
-                        },
+                        text = getPageTitle(currentRoute),
                         style = MaterialTheme.typography.titleLarge
                     )
                 },
                 navigationIcon = {
-                    if(currentRoute !is AppRoute.SportsList) {
+                    if(currentRoute !is SportsList) {
                         IconButton(onClick = { backStack.removeLastOrNull() }) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
@@ -63,6 +61,15 @@ fun AppNavigation() {
 
 
 
+}
+
+@Composable
+private fun getPageTitle(currentRoute: AppRoute): String = when (currentRoute) {
+    is SportsList -> stringResource(R.string.sports)
+    is SportsDetails -> stringResource(R.string.details)
+    is CountryList -> stringResource(R.string.countries)
+    is LeaguesList -> stringResource(R.string.leagues)
+    is LeaguesDetails -> stringResource(R.string.league_details)
 }
 
 
@@ -95,7 +102,22 @@ fun AppNavDisplay(backStack: MutableList<AppRoute>, currentRoute : AppRoute, inn
 
                     is CountryList -> {
                         NavEntry(navKey) {
-                            CountriesRoute(sport = navKey.sport) {country, sport ->  }
+                            CountriesRoute(sport = navKey.sport) {country, sport ->
+                                backStack.add(LeaguesList(sport.name, country))
+                            }
+                        }
+                    }
+
+                    is LeaguesList -> {
+                        NavEntry(navKey) {
+                            LeaguesRoute(sport = navKey.sport, country = navKey.country) { league ->
+                                backStack.add(LeaguesDetails(league))
+                            }
+                        }
+                    }
+                    is LeaguesDetails -> {
+                        NavEntry(navKey) {
+                            LeagueDetailsRoute(navKey.league )
                         }
                     }
                 }

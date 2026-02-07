@@ -8,9 +8,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.SouthAmerica
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -26,6 +30,11 @@ fun CountriesList(
     onSearchQueryChanged: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val listState = rememberLazyListState()
+
+    LaunchedEffect(countries) {
+        listState.scrollToItem(0)
+    }
     Column(modifier = modifier.fillMaxSize()) {
         OutlinedTextField(
             value = searchQuery,
@@ -40,11 +49,12 @@ fun CountriesList(
         if(countries.isEmpty()) {
             EmptyIndicator(
                 message = stringResource(R.string.empty_countries),
-                modifier = Modifier
+                modifier = Modifier,
+                icon = Icons.Default.SouthAmerica
             )
         } else {
-            LazyColumn {
-                items(countries) {
+            LazyColumn(state = listState) {
+                items(countries, key = { it.name }) {
                     CountryItem(country = it, onCountryClick = onCountryClick)
                 }
             }
