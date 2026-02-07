@@ -75,7 +75,6 @@ fun LeagueDetailsContent(league: League, modifier: Modifier = Modifier) {
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Card com gradiente e sombra
         Card(
             shape = RoundedCornerShape(28.dp),
             modifier = Modifier

@@ -30,7 +30,7 @@ fun ColoredChip(text: String, color: Color, icon: ImageVector) {
     ) {
         Icon(
             imageVector = icon,
-            contentDescription = null,
+            contentDescription = text,
             tint = color,
             modifier = Modifier.size(18.dp)
         )
