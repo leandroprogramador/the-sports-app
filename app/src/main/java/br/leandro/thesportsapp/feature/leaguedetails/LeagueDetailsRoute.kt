@@ -9,7 +9,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun LeagueDetailsRoute(league: League) {
     val viewModel : LeagueDetailsViewModel = koinViewModel()
-    viewModel.initSportDetails(league)
+    viewModel.initLeagueDetails(league)
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
     LeagueDetailsScreen(uiState.value, modifier = Modifier)

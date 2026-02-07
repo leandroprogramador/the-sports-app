@@ -10,7 +10,7 @@ class LeagueDetailsViewModel() : ViewModel() {
     private val _uiState = MutableStateFlow<LeagueDetailsUiState>(LeagueDetailsUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
-    fun initSportDetails(league: League) {
+    fun initLeagueDetails(league: League) {
         _uiState.value = LeagueDetailsUiState.Success(league)
     }
 
