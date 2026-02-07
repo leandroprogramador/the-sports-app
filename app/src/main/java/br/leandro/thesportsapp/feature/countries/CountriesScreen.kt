@@ -1,6 +1,7 @@
 package br.leandro.thesportsapp.feature.countries
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import br.leandro.core.domain.model.Country
@@ -16,13 +17,24 @@ fun CountriesScreen(
     onCountryClick: (Country) -> Unit
 ) {
     when (uiState) {
-        is CountriesUiState.Success -> CountriesList(
-            countries = uiState.countries,
-            onCountryClick = onCountryClick,
-            searchQuery = searchQuery,
-            onSearchQueryChanged = onSearchQueryChanged,
-            modifier = Modifier
-        )
+        is CountriesUiState.Success -> {
+            val filteredLeagues = remember(searchQuery, uiState.countries) {
+                if (searchQuery.isBlank()) {
+                    uiState.countries
+                } else {
+                    uiState.countries.filter {
+                        it.name.contains(searchQuery, ignoreCase = true)
+                    }
+                }
+            }
+            CountriesList(
+                countries = filteredLeagues,
+                onCountryClick = onCountryClick,
+                searchQuery = searchQuery,
+                onSearchQueryChanged = onSearchQueryChanged,
+                modifier = Modifier
+            )
+        }
         is CountriesUiState.Error -> ErrorIndicator(
             appError = uiState.error,
             modifier = Modifier

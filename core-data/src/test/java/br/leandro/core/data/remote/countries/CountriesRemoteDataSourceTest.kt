@@ -1,7 +1,6 @@
 package br.leandro.core.data.remote.countries
 
 import br.leandro.core.data.remote.country.CountriesRemoteDataSourceImpl
-import br.leandro.core.data.remote.sports.SportsRemoteDataSourceImpl
 import br.leandro.core.network.api.TheSportsDbApi
 import br.leandro.core.network.model.dto.CountriesResponseDto
 import br.leandro.core.network.model.dto.CountryDto
@@ -12,7 +11,7 @@ import org.junit.Before
 import org.junit.Test
 import java.io.IOException
 
-class SportRemoteDataSourceTest {
+class CountriesRemoteDataSourceTest {
     private val api: TheSportsDbApi = mockk()
     private lateinit var dataSource: CountriesRemoteDataSourceImpl
     private val dtoCountriesResponse = CountriesResponseDto(
@@ -21,7 +20,6 @@ class SportRemoteDataSourceTest {
             CountryDto(name_en = "Brazil", flag_url_32 = "flag_url")
         )
     )
-
 
     @Before
     fun setup() {

@@ -18,6 +18,10 @@ fun CountriesRoute(
     val searchQuery by viewModel.searchQuery.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
+        viewModel.resetSearch()
+    }
+
+    LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
             when (event) {
                 is CountriesUiEvent.OnCountryClicked -> onCountryClick(event.country.name, sport)

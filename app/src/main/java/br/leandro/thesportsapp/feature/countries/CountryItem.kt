@@ -22,7 +22,7 @@ fun CountryItem(
     onCountryClick: (Country) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Row(modifier = Modifier
+    Row(modifier = modifier
         .fillMaxWidth()
         .clickable { onCountryClick(country) }
         .padding(16.dp),

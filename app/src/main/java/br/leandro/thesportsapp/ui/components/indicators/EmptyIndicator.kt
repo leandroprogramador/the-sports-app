@@ -38,7 +38,7 @@ fun EmptyIndicator(
                 imageVector = icon,
                 contentDescription = message,
                 tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(48.dp)
+                modifier = Modifier.size(64.dp)
             )
 
             Spacer(modifier = Modifier.height(16.dp))
