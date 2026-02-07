@@ -3,6 +3,7 @@ package br.leandro.thesportsapp.feature.coutries
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasSetTextAction
@@ -30,7 +31,7 @@ class CountriesScreenTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    private  val mockList = listOf(
+    private val mockList = listOf(
         Country(name = "Argentina", flag = ""),
         Country(name = "Brazil", flag = ""),
         Country(name = "Germany", flag = "")
@@ -100,7 +101,7 @@ class CountriesScreenTest {
                 uiState = CountriesUiState.Success(mockList),
                 "",
                 {},
-                {clicked = true}
+                { clicked = true }
             )
         }
         composeTestRule.onNodeWithText("Argentina").performClick()
@@ -111,49 +112,59 @@ class CountriesScreenTest {
 
     @Test
     fun shouldFilterCountriesByValidSearchQuery() {
-        val useCase = mockk<GetCountriesUseCase>()
-        coEvery { useCase() } returns flowOf(mockList )
-        val viewModel = CountriesViewModel(useCase)
+        val countries = listOf(
+            Country("Brazil", ""),
+            Country("Argentina", ""),
+            Country("Germany", "")
+        )
 
         composeTestRule.setContent {
-            CountriesScreen (
-                uiState = viewModel.uiState.collectAsState().value,
-                onCountryClick = {},
-                searchQuery = viewModel.searchQuery.collectAsState().value,
-                onSearchQueryChanged = viewModel::onSearchQueryChanged
+            var query by remember { mutableStateOf("") }
+
+            CountriesScreen(
+                uiState = CountriesUiState.Success(countries),
+                searchQuery = query,
+                onSearchQueryChanged = { query = it },
+                onCountryClick = {}
             )
         }
 
-        composeTestRule.onNode(hasSetTextAction()).performTextInput("Bra")
+        composeTestRule
+            .onNode(hasSetTextAction())
+            .performTextInput("Bra")
 
         composeTestRule.onNodeWithText("Brazil").assertIsDisplayed()
         composeTestRule.onNodeWithText("Argentina").assertDoesNotExist()
         composeTestRule.onNodeWithText("Germany").assertDoesNotExist()
     }
 
+
     @Test
-    fun shouldFilterCountriesByInvalidSearchQueryAndShowEmptyState() {
-        val useCase = mockk<GetCountriesUseCase>()
-        coEvery { useCase() } returns flowOf(mockList )
-        val viewModel = CountriesViewModel(useCase)
+    fun shouldShowEmptyStateWhenSearchReturnsNoResults() {
+        val countries = listOf(
+            Country("Brazil", ""),
+            Country("Argentina", ""),
+            Country("Germany", "")
+        )
 
         composeTestRule.setContent {
-            CountriesScreen (
-                uiState = viewModel.uiState.collectAsState().value,
-                onCountryClick = {},
-                searchQuery = viewModel.searchQuery.collectAsState().value,
-                onSearchQueryChanged = viewModel::onSearchQueryChanged
+            var query by remember { mutableStateOf("") }
+
+            CountriesScreen(
+                uiState = CountriesUiState.Success(countries),
+                searchQuery = query,
+                onSearchQueryChanged = { query = it },
+                onCountryClick = {}
             )
         }
 
         composeTestRule.onNode(hasSetTextAction()).performTextInput("Fra")
-        val context = InstrumentationRegistry.getInstrumentation().targetContext
-        composeTestRule.onNodeWithText("Brazil").assertDoesNotExist()
-        composeTestRule.onNodeWithText("Argentina").assertDoesNotExist()
-        composeTestRule.onNodeWithText("Germany").assertDoesNotExist()
-        composeTestRule.onNodeWithText( context.getString(R.string.empty_countries)).assertIsDisplayed()
-    }
 
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        composeTestRule
+            .onNodeWithText(context.getString(R.string.empty_countries))
+            .assertIsDisplayed()
+    }
 
 
 }

@@ -154,7 +154,6 @@ class CountriesViewModelTest {
             assertEquals(0, (afterSearch as CountriesUiState.Success).countries.size)
         }
 
-
     }
 
 

@@ -14,5 +14,8 @@ sealed interface AppRoute : NavKey{
 
     @Serializable
     data class CountryList(val sport : Sport) : AppRoute
+
+    @Serializable
+    data class LeaguesList(val sport : String, val country : String) : AppRoute
 }
 

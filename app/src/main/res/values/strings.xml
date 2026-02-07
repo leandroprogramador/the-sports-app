@@ -13,5 +13,11 @@
     <string name="empty_countries">Nenhum país para ser exibido.</string>
     <string name="countries">Países</string>
     <string name="search_countries">Pesquisar países…</string>
+    <string name="leagues">Ligas</string>
+    <string name="search_leagues">Pesquisar ligas…</string>
+    <string name="loading_leagues">Carregando ligas…</string>
+    <string name="empty_leagues">Nenhuma liga para ser exibida.</string>
+    <string name="division">Divisão</string>
+
 
 </resources>

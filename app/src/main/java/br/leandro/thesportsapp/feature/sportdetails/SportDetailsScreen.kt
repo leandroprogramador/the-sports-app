@@ -43,10 +43,22 @@ fun SportDetailsScreen(
 
         is SportDetailsUiState.Success -> {
             Scaffold(
-                floatingActionButton = { ExtendedFloatingActionButton(
+                floatingActionButton = {
+                    ExtendedFloatingActionButton(
                         onClick = { onSeeLeaguesClick(uiState.sport) },
-                        icon = { Icon(Icons.AutoMirrored.Filled.List, contentDescription = null) },
-                        text = { Text(stringResource(R.string.see_leagues)) } )
+                        contentColor = MaterialTheme.colorScheme.onSurface,
+                        containerColor = MaterialTheme.colorScheme.secondary,
+                        icon = {
+                            Icon(
+                                Icons.AutoMirrored.Filled.List,
+                                contentDescription = null,
+                            )
+                        },
+                        text = {
+                            Text(
+                                text = stringResource(R.string.see_leagues)
+                            )
+                        })
                 }
 
             ) { innerPadding ->

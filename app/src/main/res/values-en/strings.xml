@@ -15,6 +15,11 @@
     <string name="empty_countries">No country to be listed.</string>
     <string name="countries">Countries</string>
     <string name="search_countries">Search Countries…</string>
+    <string name="leagues">Leagues</string>
+    <string name="search_leagues">Search leagues…</string>
+    <string name="loading_leagues">Loading leagues…</string>
+    <string name="empty_leagues">No league to be listed.</string>
+    <string name="division">Division</string>
 
 
 </resources>

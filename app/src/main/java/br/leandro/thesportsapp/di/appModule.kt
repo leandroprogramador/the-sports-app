@@ -1,6 +1,7 @@
 package br.leandro.thesportsapp.di
 
 import br.leandro.thesportsapp.feature.countries.CountriesViewModel
+import br.leandro.thesportsapp.feature.leagueslist.LeaguesViewModel
 import br.leandro.thesportsapp.feature.sportdetails.SportDetailsViewModel
 import br.leandro.thesportsapp.feature.sportslist.SportsListViewModel
 import org.koin.core.module.dsl.viewModel
@@ -11,4 +12,5 @@ val appModule = module {
     viewModel { SportsListViewModel(get()) }
     viewModel { SportDetailsViewModel() }
     viewModel { CountriesViewModel(get()) }
+    viewModel { LeaguesViewModel(get()) }
 }
